@@ -1,0 +1,121 @@
+/* Space out content a bit */
+body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.header,
+.footer, .container {
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+
+/* Custom page header */
+.header {
+    border-bottom: 1px solid #e5e5e5;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+    padding-bottom: 19px;
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 40px;
+}
+
+/* Custom page footer */
+.footer {
+    padding-top: 19px;
+    color: #777;
+    border-top: 1px solid #e5e5e5;
+}
+
+/* Customize container */
+@media (min-width: 768px) {
+    .container {
+        max-width: 730px;
+    }
+}
+.container-narrow > hr {
+    margin: 30px 0;
+}
+
+.content {
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+    /* Remove the padding we set earlier */
+    .header,
+    .footer {
+        padding-right: 0;
+        padding-left: 0;
+    }
+    /* Space out the masthead */
+    .header {
+        margin-bottom: 30px;
+    }
+    /* Remove the bottom border on the jumbotron for visual effect */
+    .content {
+        border-bottom: 0;
+    }
+}
+
+.event {
+    width:100%;
+    border: 1px solid #e5e5e5;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.event .title{
+    font-size: 25px;
+    text-align: left;
+    color: #428bca;
+    margin-top: 20px;
+    padding-left: 20px;
+}
+
+.event .start-date{
+    display: block;
+    width: 150px;
+    margin-left: -30px;
+    text-align: left;
+    float: left;
+}
+.event .type{
+    display: block;
+    width: 150px;
+    text-align: right;
+    float: right;
+}
+
+.event .description{
+    text-align: left;
+    text-indent: 20px;
+}
+
+.event .who-are-going{
+    text-align: left;
+    border-top: 1px solid #e5e5e5;
+}
+
+.event .who-are-going .lable-text {
+    display: block;
+    width: 110px;
+    border: 1px solid #e5e5e5;
+    border-left: none;
+    padding-left: 10px;
+    margin-left: -10px;
+    margin-top: -11px;
+    background-color: #ffffff;
+    text-align: left;
+}
+
+.event .subscribe {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 10px;
+    width: 100%;
+}
