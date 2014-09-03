@@ -1,0 +1,39 @@
+<div class="content" ng-controller="EventsController as event">
+    <div class="event" ng-repeat="itemEvent in event.events | limitTo:3 | orderBy: '-startDate' ">
+        <div class="start-date">
+            {{itemEvent.startDate}}
+        </div>
+        <div class="type">
+            Coming
+        </div>
+        <div class="title">
+            {{itemEvent.name}}
+        </div>
+        <div class="description">
+            <p>{{itemEvent.description}}</p>
+        </div>
+        <div class="who-are-going" >
+            <span class="lable-text">Who are going:</span>
+                     <span  ng-repeat="participant in itemEvent.participants">
+                         <a href="mailto:{{participant.email}}">{{participant.name}}</a>
+                     </span>
+                     <span>
+                         <a href="mailto:{{participant.email}}">{{participant.name}}</a>
+                     </span>
+        </div>
+        <div class="subscribe" >
+            <form class="form-inline" role="form" ng-controller="ParticipantController as participantCtrl" >
+                <div class="form-group">
+                    <label class="sr-only" for="name">Name</label>
+                    <input type="text" class="form-control input-sm" id="name" placeholder="Enter name" ng-model="participantCtrl.participant.name">
+                </div>
+
+                <div class="form-group">
+                    <label class="sr-only" for="email">Email</label>
+                    <input type="email" class="form-control input-sm" id="email" placeholder="Enter email" ng-model="participantCtrl.participant.email">
+                </div>
+                <button type="submit" class="btn btn-sm btn-default">I am going</button>
+            </form>
+        </div>
+    </div>
+</div>
