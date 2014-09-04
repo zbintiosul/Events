@@ -8,8 +8,13 @@ eventAppControllers.controller("EventsController", ['$http','$scope', 'JSONServi
     $scope.events;
 
     $scope.getJSON = function(){
+        if ($scope.events) {
+            return;
+        }
         JSONService.getJSON()
             .then(function (response) {
+                console.log('response', response);
+
                 $scope.events = response.data;
             });
     };
@@ -17,7 +22,7 @@ eventAppControllers.controller("EventsController", ['$http','$scope', 'JSONServi
 
     $scope.addScopeEvent = function(event){
         // Add to $scope.data (assuming it's an array of objects)
-        console.log('sss')
+        console.log('ssss', event)
         $scope.events.push(event);
         console.log($scope.events);
         return true;
@@ -33,7 +38,7 @@ eventAppControllers.controller("ParticipantController", ['$scope', function($sco
     };
 }]);
 
-eventAppControllers.controller("AddEventController", ['$scope', function($scope) {
+eventAppControllers.controller("AddEventController", ['$scope', '$location', function($scope, $location) {
 
     this.event = {
         startDate: moment().format("DD MMM YYYY HH:mm"),
@@ -62,6 +67,7 @@ eventAppControllers.controller("AddEventController", ['$scope', function($scope)
             }
         }
         console.log(this.event);
+        $location.path("/events");
         //event.events = event.events.concat(this.event);
         //this.event = {};
         return true;
