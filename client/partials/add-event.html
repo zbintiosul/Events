@@ -1,33 +1,58 @@
-<div class="content" ng-controller="AddEventController as addEvent" ng-init="currentPage ='add-event'">
-    <form role="form">
+<div class="content" ng-controller="AddEventController as addEvent" >
+
+    <form role="form" name="addEventForm" ng-submit="addEventForm.$valid && addEvent.addEvent() && addScopeEvent(addEvent.event) && addEvent.resetEvent()" novalidate>
+        <div class="row">
+            <div class="form-group col-lg-6 col-md-6">
+                <label for="event_name">Start Event</label>
+                <div class="input-group date">
+                    <date-time-picker data="startDate" ng-model="addEvent.event.startDate"></date-time-picker>
+                    <span class="input-group-addon">
+                           <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+
+            </div>
+            <div class="form-group col-lg-6 col-md-6">
+                <label for="event_name">End Event</label>
+                <div class="input-group date">
+                    <date-time-picker data="endDate" ng-model="addEvent.event.endDate"></date-time-picker>
+                    <span class="input-group-addon">
+                           <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
         <div class="form-group">
             <label for="event_name">Event name</label>
-            <input type="event_name" ng-model="addEvent.name" class="form-control" id="event_name" placeholder="Enter event name">
+            <input type="event_name" ng-model="addEvent.event.name" class="form-control" id="event_name" placeholder="Enter event name" required>
         </div>
         <div class="form-group">
             <label for="description">Description</label>
-            <textarea id="description"  name="description" ng-model="addEvent.description" class="form-control" rows="5"></textarea>
+            <textarea id="description"  name="description" ng-model="addEvent.event.description" class="form-control" rows="5" required></textarea>
         </div>
         <div class="checkbox">
             <label>
-                <input type="checkbox"> Make me anonymous creator
+                <input type="checkbox"  ng-model="addEvent.isAnonimous" value="true"> Make me anonymous creator
             </label>
         </div>
-        <div class="checkbox">
+
+        <div class="checkbox" ng-show="!addEvent.isAnonimous">
             <label>
-                <input type="checkbox"> Add me to participants
+                <input type="checkbox" ng-model="addEvent.isAuthorParticipant" value="true"> Add me to participants
             </label>
         </div>
-        <div class="row">
+
+        <div class="row" ng-show="!addEvent.isAnonimous">
             <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <label for="name">Name</label>
-                <input type="name" class="form-control" id="name" placeholder="Enter name">
+                <input type="name" class="form-control" id="name" placeholder="Enter name" ng-model="addEvent.event.author.name" ng-required="!addEvent.isAnonimous">
             </div>
             <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter email">
+                <input type="email" class="form-control" id="email" placeholder="Enter email" ng-model="addEvent.event.author.email" ng-required="!addEvent.isAnonimous">
             </div>
         </div>
-        <button type="submit" class="btn btn-default">Add event</button>
+        <button type="submit" class="btn btn-default" >Add event</button>
     </form>
 </div>
+

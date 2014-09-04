@@ -1,5 +1,5 @@
-<div class="content" ng-controller="EventsController as event">
-    <div class="event" ng-repeat="itemEvent in event.events | limitTo:3 | orderBy: '-startDate' ">
+<div class="content">
+    <div class="event" ng-repeat="itemEvent in events | limitTo:3 | orderBy: '-startDate' ">
         <div class="start-date">
             {{itemEvent.startDate}}
         </div>
@@ -22,15 +22,16 @@
                      </span>
         </div>
         <div class="subscribe" >
-            <form class="form-inline" role="form" ng-controller="ParticipantController as participantCtrl" >
+
+            <form class="form-inline" name="participantForm" role="form" ng-controller="ParticipantController as participantCtrl" ng-submit="participantForm.$valid && participantCtrl.addParticipant(itemEvent)" novalidate>
                 <div class="form-group">
                     <label class="sr-only" for="name">Name</label>
-                    <input type="text" class="form-control input-sm" id="name" placeholder="Enter name" ng-model="participantCtrl.participant.name">
+                    <input type="text" class="form-control input-sm" id="name" placeholder="Enter name" ng-model="participantCtrl.participant.name" required>
                 </div>
 
                 <div class="form-group">
                     <label class="sr-only" for="email">Email</label>
-                    <input type="email" class="form-control input-sm" id="email" placeholder="Enter email" ng-model="participantCtrl.participant.email">
+                    <input type="email" class="form-control input-sm" id="email" placeholder="Enter email" ng-model="participantCtrl.participant.email" required>
                 </div>
                 <button type="submit" class="btn btn-sm btn-default">I am going</button>
             </form>

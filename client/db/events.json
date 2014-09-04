@@ -1,6 +1,7 @@
 [
     {
-        "startDate": "6 Sept 2014",
+        "startDate": "6 Sept 2014 08:00",
+        "endDate": "6 Sept 2014 18:00",
         "name": "Yopeso Bike Ride 5 (Capriana Monastery)",
         "author": {
             "name": "Clementii Cicali",
@@ -20,7 +21,8 @@
         ]
     },
     {
-        "startDate": "4 Sept 2014",
+        "startDate": "4 Sept 2014 09:00",
+        "endDate": "5 Sept 2014 18:00",
         "name": "My Event",
         "author": {
             "name": "Racu Mihai",

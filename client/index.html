@@ -4,10 +4,13 @@
     <meta charset="utf-8">
     <title>YOPESO Events</title>
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css">
+
     <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container" ng-controller="EventsController as event">
         <div class="header">
             <ul class="nav nav-pills pull-right" ng-controller="PageController as page">
                 <li ng-class="{active:isHome}"><a href="#/event" >Home</a></li>
@@ -15,7 +18,9 @@
             </ul>
             <h3 class="text-muted">YOPESO EVENTS</h3>
         </div>
+
         <div ng-view>
+
         </div>
 
 
@@ -23,10 +28,19 @@
             <p>© Yopeso 2014</p>
         </div>
     </div>
+    <script type="application/javascript" src="js/jquery/jquery.min.js"></script>
+    <script type="application/javascript" src="js/moment/moment.js"></script>
+    <script type="application/javascript" src="js/bootstrap/bootstrap.min.js"></script>
+    <script type="application/javascript" src="js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
+
     <script type="application/javascript" src="js/angular/angular.min.js"></script>
     <script src="components/angular-route/angular-route.js"></script>
+
     <script type="application/javascript" src="js/app.js"></script>
     <script type="application/javascript" src="js/controllers.js"></script>
+    <script type="application/javascript" src="js/services.js"></script>
+
+
 </div>
 </body>
 </html>

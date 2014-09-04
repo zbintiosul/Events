@@ -4,12 +4,24 @@
 
 var eventAppControllers = angular.module('eventAppControllers', []);
 
-eventAppControllers.controller("EventsController", ['$http','$scope', function($http,$scope) {
-    var event = this;
-    event.events = [];
-    $http.get('db/events.json').success(function(data){
-        event.events = data;
-    })
+eventAppControllers.controller("EventsController", ['$http','$scope', 'JSONService',  function($http,$scope,JSONService) {
+    $scope.events;
+
+    $scope.getJSON = function(){
+        JSONService.getJSON()
+            .then(function (response) {
+                $scope.events = response.data;
+            });
+    };
+    $scope.getJSON();
+
+    $scope.addScopeEvent = function(event){
+        // Add to $scope.data (assuming it's an array of objects)
+        console.log('sss')
+        $scope.events.push(event);
+        console.log($scope.events);
+        return true;
+    };
 }]);
 
 eventAppControllers.controller("ParticipantController", ['$scope', function($scope) {
@@ -23,13 +35,47 @@ eventAppControllers.controller("ParticipantController", ['$scope', function($sco
 
 eventAppControllers.controller("AddEventController", ['$scope', function($scope) {
 
-    this.event = {};
-
-
-    this.addParticipant = function(event){
-        event.participants.push(this.participant);
-        this.participant = {};
+    this.event = {
+        startDate: moment().format("DD MMM YYYY HH:mm"),
+        endDate: moment().format("DD MMM YYYY HH:mm")
     };
+    this.isAnonimous = false;
+    this.isAuthorParticipant= false;
+
+    $scope.startDate = { id: "startDate", name: "startDate", datetime:'' };
+    $scope.endDate = { id: "endDate", name: "endDate", datetime:'' };
+
+    //console.log($scope.startDate);
+    this.addEvent = function(){
+
+        if (this.isAnonimous){
+            this.event.author = {
+                name: "Anonymous",
+                email: ""
+            };
+        } else {
+            if (this.isAuthorParticipant){
+                this.event.participants = {
+                    name: this.event.author.name,
+                    email:  this.event.author.email
+                }
+            }
+        }
+        console.log(this.event);
+        //event.events = event.events.concat(this.event);
+        //this.event = {};
+        return true;
+    };
+
+    this.resetEvent= function (){
+        this.event = {
+            startDate: moment().format("DD MMM YYYY HH:mm"),
+            endDate: moment().format("DD MMM YYYY HH:mm")
+        };
+        console.log(this.event);
+        return true;
+    }
+
 }]);
 
 
