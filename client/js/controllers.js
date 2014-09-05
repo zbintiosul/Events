@@ -13,7 +13,7 @@ eventAppControllers.controller("EventsController", ['$http','$scope', 'JSONServi
         }
         JSONService.getJSON()
             .then(function (response) {
-                console.log('response', response);
+                //console.log('response', response);
 
                 $scope.events = response.data;
             });
@@ -21,15 +21,33 @@ eventAppControllers.controller("EventsController", ['$http','$scope', 'JSONServi
     $scope.getJSON();
 
     $scope.addScopeEvent = function(event){
-        // Add to $scope.data (assuming it's an array of objects)
-        console.log('ssss', event)
+
+        //console.log('ssss', event)
         $scope.events.push(event);
-        console.log($scope.events);
+        //console.log($scope.events);
         return true;
+    };
+
+    this.getStatus = function(event){
+
+        var startDate = moment(event.startDate,"DD MMM YYYY HH:mm");
+        var endDate = moment(event.endDate,"DD MMM YYYY HH:mm");
+        var now = moment();
+
+        if (startDate>now){
+            return 'Coming';
+        } else {
+           if (endDate<now){
+               return 'Passed';
+           } else {
+               return 'In progress';
+           }
+        }
     };
 }]);
 
-eventAppControllers.controller("ParticipantController", ['$scope', function($scope) {
+eventAppControllers.controller("ParticipantController", [ function() {
+
     this.participant = {};
 
     this.addParticipant = function(event){
@@ -53,6 +71,8 @@ eventAppControllers.controller("AddEventController", ['$scope', '$location', fun
     //console.log($scope.startDate);
     this.addEvent = function(){
 
+        this.event.id = moment(this.event.startDate,"DD MMM YYYY HH:mm:ss").valueOf();
+
         if (this.isAnonimous){
             this.event.author = {
                 name: "Anonymous",
@@ -60,16 +80,16 @@ eventAppControllers.controller("AddEventController", ['$scope', '$location', fun
             };
         } else {
             if (this.isAuthorParticipant){
-                this.event.participants = {
+                this.event.participants = [{
                     name: this.event.author.name,
                     email:  this.event.author.email
-                }
+                }];
             }
         }
-        console.log(this.event);
+
+        //console.log(this.event);
         $location.path("/events");
-        //event.events = event.events.concat(this.event);
-        //this.event = {};
+
         return true;
     };
 
@@ -78,7 +98,7 @@ eventAppControllers.controller("AddEventController", ['$scope', '$location', fun
             startDate: moment().format("DD MMM YYYY HH:mm"),
             endDate: moment().format("DD MMM YYYY HH:mm")
         };
-        console.log(this.event);
+        //console.log(this.event);
         return true;
     }
 
@@ -91,14 +111,9 @@ eventAppControllers.controller("PageController", ['$scope' ,'$location',
         // Update the rendering of the page.
         var render = function(){
 
-            // Pull the "action" value out of the
             // currently selected route.
             var renderAction = $location.path();
 
-
-            // Also, let's update the render path so that
-            // we can start conditionally rendering parts
-            // of the page.
             var renderPath = renderAction.split( "/" );
 
             // Reset the booleans used to set the class
@@ -121,7 +136,6 @@ eventAppControllers.controller("PageController", ['$scope' ,'$location',
         $scope.$on(
             "$routeChangeSuccess",
             function( $currentRoute, $previousRoute ){
-
                 // Update the rendering.
                 render();
 

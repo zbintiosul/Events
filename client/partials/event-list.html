@@ -1,10 +1,10 @@
 <div class="content">
-    <div class="event" ng-repeat="itemEvent in events ">
+    <div class="event" ng-repeat="itemEvent in events | orderBy:'-id' ">
         <div class="start-date">
             {{itemEvent.startDate}}
         </div>
         <div class="type">
-            Coming
+            {{event.getStatus(itemEvent)}}
         </div>
         <div class="title">
             {{itemEvent.name}}
