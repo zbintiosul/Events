@@ -4,29 +4,9 @@
 
 var eventAppControllers = angular.module('eventAppControllers', []);
 
-eventAppControllers.controller("EventsController", ['$http','$scope', 'JSONService',  function($http,$scope,JSONService) {
-    $scope.events;
+eventAppControllers.controller("EventsController", ['$http','$scope', 'DBEvents',  function($http,$scope,DBEvents) {
 
-    $scope.getJSON = function(){
-        if ($scope.events) {
-            return;
-        }
-        JSONService.getJSON()
-            .then(function (response) {
-                //console.log('response', response);
-
-                $scope.events = response.data;
-            });
-    };
-    $scope.getJSON();
-
-    $scope.addScopeEvent = function(event){
-
-        //console.log('ssss', event)
-        $scope.events.push(event);
-        //console.log($scope.events);
-        return true;
-    };
+    $scope.events = DBEvents.getEvents();
 
     this.getStatus = function(event){
 
@@ -56,7 +36,7 @@ eventAppControllers.controller("ParticipantController", [ function() {
     };
 }]);
 
-eventAppControllers.controller("AddEventController", ['$scope', '$location', function($scope, $location) {
+eventAppControllers.controller("AddEventController", ['$scope', '$location', 'DBEvents', function($scope, $location,DBEvents) {
 
     this.event = {
         startDate: moment().format("DD MMM YYYY HH:mm"),
@@ -86,6 +66,10 @@ eventAppControllers.controller("AddEventController", ['$scope', '$location', fun
                 }];
             }
         }
+
+        DBEvents.putEvent(this.event);
+
+        this.resetEvent();
 
         //console.log(this.event);
         $location.path("/events");
