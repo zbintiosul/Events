@@ -129,5 +129,41 @@ eventAppControllers.controller("PageController", ['$scope' ,'$location',
 }]);
 
 
+eventAppControllers.controller("FacebookController", ['$http','$scope',  function($http,$scope) {
+    $scope.posts = [];
+    var facebook = this;
+    facebook.haveResult = false;
+    this.tag = '';
+    this.search = function(until,limit){
+
+        if (typeof limit === "undefined"){
+            limit = 100;
+        }
+        if (typeof until === "undefined"){
+            var currentDate = moment().format('DD-MMM-YYYY HH:mm:ss');
+            console.log(currentDate);
+            until = parseInt(Date.parse(currentDate)/1000)+11000;
+
+        }
+        console.log(until);
+        $http.get('https://graph.facebook.com/v1.0/search?access_token=CAACEdEose0cBAMu6ZBecWpqscTswWTIVP0pBAXIhkPJr6ANpFdKqZBgIAgGbTiJEPFp5baAuGxWqlVZBXsfPnZBSz5PECGltZCdD2PEM2ZCC5cTaaeCEJYe6Qk1BwDwnMgE9FtAjrJXWwML1WSkNwZCQ7nKPVPlhdZBCZAWLK1f6VZBkxtvdPZCEAPDL2KIbneZB64q9oNDqhAYKTIv0atvGr9rF&format=json&method=get&q=%23'+this.tag+'&limit='+limit+'&until='+until).success(function (data) {
+            console.log('response', data.data);
+            if (data.data.length)
+            {
+                facebook.haveResult = true;
+            }
+            $scope.posts = data.data;
+        });
+    }
+
+    this.getFromPicture = function(post){
+        if (post.from.id){
+            return 'https://graph.facebook.com/'+post.from.id+'/picture';
+        }else
+        return '';
+    }
+}]);
+
+
 
 

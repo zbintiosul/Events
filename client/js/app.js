@@ -19,6 +19,10 @@ eventApp.config(['$routeProvider',
                 templateUrl: 'partials/add-event.html',
                 controller: 'AddEventController'
             }).
+            when('/facebook', {
+                templateUrl: 'partials/facebook.html',
+                controller: 'FacebookController'
+            }).
             otherwise({
                 redirectTo: '/events'
             });
