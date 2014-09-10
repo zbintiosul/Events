@@ -1,29 +1,39 @@
-<div class="content">
     <div class="event" ng-repeat="itemEvent in events | orderBy:'-id' ">
-        <div class="start-date">
-            {{itemEvent.startDate}}
+        <div class="row">
+            <div class="start-date col-md-4 col-lg-4">
+                <span class="label label-success">FROM: {{itemEvent.startDate}}</span>
+            </div>
+            <div class="type col-md-4 col-lg-4">
+                {{eventCTRL.getStatus(itemEvent)}}
+            </div>
+            <div class="end-date col-md-4 col-lg-4">
+                <span class="label label-warning">TO: {{itemEvent.endDate}}</span>
+            </div>
         </div>
-        <div class="type">
-            {{eventCTRL.getStatus(itemEvent)}}
+        <div class="row">
+            <div class="title">
+                {{itemEvent.name}}
+            </div>
         </div>
-        <div class="title">
-            {{itemEvent.name}}
+        <div class="row">
+            <div class="description" >
+                <pre ng-bind-html="itemEvent.description">
+                </pre>
+            </div>
         </div>
-        <div class="description">
-            <p>{{itemEvent.description}}</p>
-        </div>
+
         <div class="who-are-going" >
-            <span class="lable-text">Who are going:</span>
-                     <span  ng-repeat="participant in itemEvent.participants">
+            <span class="label label-info lable-text"><i class="fa fa-users"></i> Who are going:</span>
+                     <span  ng-repeat="participant in itemEvent.participants" class="participant">
                          <a href="mailto:{{participant.email}}">{{participant.name}}</a>
                      </span>
                      <span>
                          <a href="mailto:{{participant.email}}">{{participant.name}}</a>
                      </span>
         </div>
-        <div class="subscribe" >
-
-            <form class="form-inline" name="participantForm" role="form" ng-controller="ParticipantController as participantCtrl" ng-submit="participantForm.$valid && participantCtrl.addParticipant(itemEvent)" novalidate>
+        <div class="subscribe" ng-controller="ParticipantController as participantCtrl" ng-show="participantCtrl.getIsUserSub(itemEvent)">
+            <button type="submit" ng-hide="participantCtrl.userIsSubscribed" class="btn btn-sm btn-info showHideSubBTN" ng-click="participantCtrl.subscribeShow = ! participantCtrl.subscribeShow"><i class="fa fa-plus"></i> I am going</button>
+            <form class="form-inline" ng-show="participantCtrl.subscribeShow" name="participantForm" role="form" ng-submit="participantForm.$valid && participantCtrl.addParticipant(itemEvent)" novalidate>
                 <div class="form-group">
                     <label class="sr-only" for="name">Name</label>
                     <input type="text" class="form-control input-sm" id="name" placeholder="Enter name" ng-model="participantCtrl.participant.name" required>
@@ -33,8 +43,8 @@
                     <label class="sr-only" for="email">Email</label>
                     <input type="email" class="form-control input-sm" id="email" placeholder="Enter email" ng-model="participantCtrl.participant.email" required>
                 </div>
-                <button type="submit" class="btn btn-sm btn-default">I am going</button>
+                <button type="submit" class="btn btn-sm btn-info">Add</button>
             </form>
+
         </div>
     </div>
-</div>

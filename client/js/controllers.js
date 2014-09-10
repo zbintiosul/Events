@@ -26,13 +26,65 @@ eventAppControllers.controller("EventsController", ['$http','$scope', 'DBEvents'
     };
 }]);
 
-eventAppControllers.controller("ParticipantController", [ function() {
+eventAppControllers.controller("ParticipantController", ['$cookies', 'DBEvents', function($cookies,DBEvents) {
+    var $participant = this;
 
     this.participant = {};
+    //$cookies.user = '';
+    this.username = $cookies.username;
+    this.useremail = $cookies.useremail;
+
+
+    console.log(this.username,this.useremail);
+    this.userIsSubscribed = false;
+    this.subscribeShow = false;
+
+    this.getIsUserSub = function(event){
+        if (!this.haveParticipants(event)) {
+            return true;
+        }
+        var participants = event.participants;
+
+        if (typeof this.username === 'undefined' || typeof this.useremail === 'undefined'){
+              return true;
+        } else {
+                var $return = true;
+                participants.forEach( function(participant) {
+                    console.log($participant.username,participant.name);
+                    if (typeof participant === 'object' && participant.name == $participant.username && participant.email == $participant.useremail)
+                    {
+                        $return = false;
+                    }
+                });
+        }
+        return $return;
+    };
+
+    this.haveParticipants = function(event){
+        if (typeof event === 'object' && typeof event.participants === 'undefined')
+        {
+            return false;
+        } else {
+            return true;
+        }
+    };
 
     this.addParticipant = function(event){
+        if (!this.haveParticipants(event)) {
+            event.participants = [];
+        }
+
+        console.log(event);
         event.participants.push(this.participant);
+
+        DBEvents.putParticipant(event.id,this.participant);
+
+        $cookies.username = this.participant.name;
+        $cookies.useremail = this.participant.email;
+
         this.participant = {};
+        this.subscribeShow = false;
+        this.userIsSubscribed = true;
     };
 }]);
 
@@ -104,6 +156,7 @@ eventAppControllers.controller("PageController", ['$scope' ,'$location',
             // for the navigation.
             var isHome = (renderPath[ 1 ] == "events");
             var isAddEvent = (renderPath[ 1 ] == "add-event");
+            var isFacebook = (renderPath[ 1 ] == "facebook");
 
             // Store the values in the model.
             $scope.renderAction = renderAction;
@@ -111,6 +164,7 @@ eventAppControllers.controller("PageController", ['$scope' ,'$location',
 
             $scope.isHome = isHome;
             $scope.isAddEvent = isAddEvent;
+            $scope.isFacebook = isFacebook;
 
         };
 
@@ -146,7 +200,7 @@ eventAppControllers.controller("FacebookController", ['$http','$scope',  functio
 
         }
         console.log(until);
-        $http.get('https://graph.facebook.com/v1.0/search?access_token=CAACEdEose0cBAMu6ZBecWpqscTswWTIVP0pBAXIhkPJr6ANpFdKqZBgIAgGbTiJEPFp5baAuGxWqlVZBXsfPnZBSz5PECGltZCdD2PEM2ZCC5cTaaeCEJYe6Qk1BwDwnMgE9FtAjrJXWwML1WSkNwZCQ7nKPVPlhdZBCZAWLK1f6VZBkxtvdPZCEAPDL2KIbneZB64q9oNDqhAYKTIv0atvGr9rF&format=json&method=get&q=%23'+this.tag+'&limit='+limit+'&until='+until).success(function (data) {
+        $http.get('https://graph.facebook.com/v1.0/search?access_token=CAACEdEose0cBAGHWg3O1daVeNlY0PZA9Q4zQmqUV0IgE31NABYWNXeI9U0T4IoKdizDZB0rDFhZBznwgBClmkXoAGlySBWj6UG6bbhvIag8P20TmszO4ZBQ4K6gp7miG7sdZAj3uXqWZB9dWa8jSiZAQwmu0YYWY9EHS2PSFjxyGJV3Hv3LrD9yB3oUTn8ImO9uVwwwuoG1tMwuwG4mJIp0&format=json&method=get&q=%23'+this.tag+'&limit='+limit+'&until='+until).success(function (data) {
             console.log('response', data.data);
             if (data.data.length)
             {

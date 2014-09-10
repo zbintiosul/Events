@@ -79,6 +79,49 @@ app.post('/insert-events', function (req, res){
 });
 
 
+app.post('/insert-participant', function (req, res){
+    //console.log("POST: ");
+    res.header("Access-Control-Allow-Origin", "http://myangular.localhost");
+    res.header("Access-Control-Allow-Methods", "GET, POST");
+    //res.writeHead(200, {'Content-Type': 'text/plain'});
+    //user = req.body.username;
+    //passwd = req.body.password;
+    //emailid = req.body.email;
+//  console.log(req.body);
+    console.log(req.body.mydata);
+    var jsonData = JSON.parse(req.body.mydata);
+
+    db.events.update(
+        { id:  jsonData.id },
+        { $push: { participants:  jsonData.participant } },
+    function(err, saved) {
+        if( err || !saved ) res.end( "Participant not added");
+        else res.end( "Participant added");
+    });
+});
+
+app.post('/delete-event', function (req, res){
+    //console.log("POST: ");
+    res.header("Access-Control-Allow-Origin", "http://myangular.localhost");
+    res.header("Access-Control-Allow-Methods", "GET, POST");
+    //res.writeHead(200, {'Content-Type': 'text/plain'});
+    //user = req.body.username;
+    //passwd = req.body.password;
+    //emailid = req.body.email;
+//  console.log(req.body);
+    console.log(req.body.mydata);
+    var jsonData = JSON.parse(req.body.mydata);
+
+    db.products.remove( { id: jsonData.id },
+        function(err, saved) {
+            if( err || !saved ) res.end( "Event not deleted");
+            else res.end( "Event deleted");
+        });
+});
+
+
+
+
   
  
 

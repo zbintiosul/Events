@@ -4,8 +4,11 @@
 
 var eventApp = angular.module('eventApp', [
     'ngRoute',
+    'ngSanitize',
+    'ngCookies',
     'eventAppControllers',
     'eventAppServices'
+
 ]);
 
 eventApp.config(['$routeProvider',
@@ -50,17 +53,17 @@ eventApp.directive('dateTimePicker', function() {
 
             element.bind('blur keyup change', function(){
                   scope.data.datetime = input.val();
+                var startDateElement = $('#startDate');
+                var endDateElement = $('#endDate');
 
-                var startDate = angular.element(document.querySelector( '#startDate' ) );
-                var endDate = angular.element(document.querySelector( '#endDate' ) );
-
-                if (startDate.length && endDate.length)
+                if (startDateElement.length && endDateElement.length)
                 {
-                    var startDatetime = $('#startDate').data("DateTimePicker").getDate();
-                    var endDatetime = $('#endDate').data("DateTimePicker").getDate();
-                    $('#endDate').data("DateTimePicker").setMinDate(startDatetime);
-                    if (endDatetime<startDatetime){
-                        $('#endDate').data("DateTimePicker").setDate(startDatetime);
+                    var startDatetime = startDateElement.data("DateTimePicker").getDate();
+                    var endDatetime = endDateElement.data("DateTimePicker").getDate();
+                    endDateElement.data("DateTimePicker").setMinDate(startDatetime);
+                    if (endDatetime < startDatetime){
+                        //console.log(,endDatetime);
+                        endDateElement.data("DateTimePicker").setDate(startDatetime.format("DD MMM YYYY HH:mm"));
                     }
                 }
             });
