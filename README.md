@@ -1,5 +1,7 @@
 Events
 ======
+Events is an application created with angular, mongoDB and nodejs
+
 Events List
 
 ![](http://storage5.static.itmages.com/i/14/0910/h_1410363040_9760566_c19900ae67.png)
